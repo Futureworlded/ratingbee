@@ -8,11 +8,12 @@ interface AuthModalProps {
   mode: ModalMode
   businessName?: string
   businessId?: string
+  businessPhone?: string
   onClose: () => void
   onSuccess?: () => void
 }
 
-export default function AuthModal({ mode, businessName, businessId, onClose, onSuccess }: AuthModalProps) {
+export default function AuthModal({ mode, businessName, businessId, businessPhone, onClose, onSuccess }: AuthModalProps) {
   const [currentMode, setCurrentMode] = useState<ModalMode>(mode)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -23,7 +24,7 @@ export default function AuthModal({ mode, businessName, businessId, onClose, onS
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [businessPhone, setBusinessPhone] = useState('')
+  const [businessPhone, setBusinessPhone] = useState(businessPhone || '')
   const [ownerRole, setOwnerRole] = useState('')
   const [reviewText, setReviewText] = useState('')
 
@@ -209,7 +210,7 @@ export default function AuthModal({ mode, businessName, businessId, onClose, onS
                     </select>
                   </div>
                   <p style={{ fontSize:'12px', color:'var(--gray-mid)', marginBottom:'12px', lineHeight:'1.5' }}>
-                    We will send a 6-digit verification code to the phone number listed on your Google Business Profile.
+                    We will text a 6-digit code to the number above — the phone listed on your Google Business Profile. Edit it if needed.
                   </p>
                 </>
               )}
