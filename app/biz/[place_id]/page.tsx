@@ -456,7 +456,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 title="Helpful"
                                 className="rv-vote-btn"
                               >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c9b6d" strokeWidth={myVote==='up' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='up' ? 1 : 0.55 }}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill={myVote==='up' ? '#1c9b6d' : 'none'} stroke="#1c9b6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='up' ? 1 : 0.6 }}>
                                   <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/>
                                   <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
                                 </svg>
@@ -468,7 +468,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 title="Not helpful"
                                 className="rv-vote-btn"
                               >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" strokeWidth={myVote==='down' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='down' ? 1 : 0.55 }}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill={myVote==='down' ? '#E53E3E' : 'none'} stroke="#E53E3E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='down' ? 1 : 0.6 }}>
                                   <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/>
                                   <path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
                                 </svg>
@@ -480,7 +480,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 title={isFlagged ? 'Flagged — click to unflag' : 'Flag this review'}
                                 className="rv-vote-btn"
                               >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" strokeWidth={myVote==='flag' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='flag' ? 1 : 0.55 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill={myVote==='flag' ? '#E53E3E' : 'none'} stroke="#E53E3E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='flag' ? 1 : 0.6 }}>
                                   <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
                                   <line x1="4" y1="22" x2="4" y2="15"/>
                                 </svg>
@@ -493,7 +493,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 className="rv-vote-btn"
                                 style={{ marginTop:'4px' }}
                               >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5A623" strokeWidth={replyingTo === voteId ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: replyingTo === voteId ? 1 : 0.55 }}>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill={replyingTo === voteId ? '#F5A623' : 'none'} stroke="#F5A623" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: replyingTo === voteId ? 1 : 0.6 }}>
                                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                                 </svg>
                               </button>
@@ -505,7 +505,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 className="rv-vote-btn"
                                 style={{ marginTop:'2px' }}
                               >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth={bumped[voteId] ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: bumped[voteId] ? 1 : 0.45 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: bumped[voteId] ? 1 : 0.4 }}>
                                   <polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/>
                                 </svg>
                               </button>
