@@ -223,14 +223,16 @@ input, textarea, select { font-family: var(--font-body); }
 .rb-modal-wrap { position: relative; }
 
 /* Star rating input */
-.rb-stars-input { display: flex; gap: 6px; margin-bottom: 8px; }
+.rb-stars-input { display: flex; gap: 4px; margin-bottom: 8px; }
 .rb-star-btn {
-  background: none; border: none; font-size: 28px;
-  cursor: pointer; color: var(--gray-light); transition: color 0.15s;
-  padding: 0; line-height: 1;
+  background: none; border: none; font-size: 36px;
+  cursor: pointer; color: #D0CEC9;
+  transition: color 0.15s, transform 0.1s;
+  padding: 2px; line-height: 1;
+  text-shadow: 0 0 0 1px rgba(0,0,0,0.08);
 }
-.rb-star-btn.active { color: var(--honey); }
-.rb-star-btn:hover { color: var(--honey); }
+.rb-star-btn.active { color: var(--honey); transform: scale(1.1); }
+.rb-star-btn:hover { color: var(--honey); transform: scale(1.15); }
 
 /* Loading spinner */
 .rb-spinner {

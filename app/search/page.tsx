@@ -148,7 +148,8 @@ function SearchContent() {
         </form>
         <div className="rb-nav-links">
           <a href="/claim" className="rb-nav-link">For Businesses</a>
-          <button className="rb-nav-btn" onClick={function() { setAuthMode('register'); setShowAuth(true) }}>Sign Up</button>
+          <button className="rb-nav-link" style={{ background:'none', border:'none', cursor:'pointer', fontFamily:'inherit', fontSize:'14px', fontWeight:'500', color:'var(--gray-dark)' }} onClick={function() { setAuthMode('register'); setShowAuth(true) }}>Register</button>
+          <button className="rb-nav-btn" onClick={function() { setAuthMode('login'); setShowAuth(true) }}>Sign In</button>
         </div>
       </nav>
 

@@ -55,7 +55,7 @@ export default function DashboardPage() {
     return (
       <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'#F5F3EE' }}>
         <div style={{ textAlign:'center' }}>
-          <img src="/rating-bee.png" alt="" style={{ height:'48px', margin:'0 auto 16px', display:'block' }} />
+          <img src="/rating-bee.png" alt="RatingBee" style={{ height:'40px', width:'auto', margin:'0 auto 16px', display:'block', objectFit:'contain' }} />
           <div style={{ color:'#888', fontSize:'14px' }}>Loading your dashboard...</div>
         </div>
       </div>

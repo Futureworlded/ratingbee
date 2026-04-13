@@ -81,6 +81,26 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
   const [searchWhere, setSearchWhere] = useState('')
   const [votes, setVotes] = useState<Record<string, 'up'|'down'|'flag'|null>>({})
   const [replyingTo, setReplyingTo] = useState<string|null>(null)
+  const [bumped, setBumped] = useState<Record<string, boolean>>({})
+  const [replies, setReplies] = useState<Record<string, Array<{name:string; text:string; date:string; isOwner:boolean}>>>({})
+  const [replyTexts, setReplyTexts] = useState<Record<string, string>>({})
+
+  function toggleBump(id: string) {
+    setBumped(function(prev) {
+      return { ...prev, [id]: !prev[id] }
+    })
+  }
+
+  function submitReply(voteId: string) {
+    const text = replyTexts[voteId]?.trim()
+    if (!text) return
+    setReplies(function(prev) {
+      const existing = prev[voteId] || []
+      return { ...prev, [voteId]: [...existing, { name: 'You', text, date: 'Just now', isOwner: false }] }
+    })
+    setReplyTexts(function(prev) { return { ...prev, [voteId]: '' } })
+    setReplyingTo(null)
+  }
 
   function castVote(id: string, type: 'up'|'down'|'flag') {
     setVotes(function(prev) {
@@ -291,7 +311,8 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
         </form>
         <div className="biz-nav-links" style={{ display:'flex', alignItems:'center', justifyContent:'flex-end', gap:'10px' }}>
           <a href="/claim" style={{ fontSize:'14px', color:'#333', textDecoration:'none', fontWeight:'500', whiteSpace:'nowrap' }}>For Businesses</a>
-          <button onClick={function(){setModalMode('register')}} style={{ background:'#F5A623', color:'white', border:'none', borderRadius:'100px', padding:'7px 16px', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>Sign Up</button>
+          <button onClick={function(){setModalMode('register')}} style={{ background:'none', border:'none', fontSize:'14px', color:'#555', cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap', fontWeight:'500' }}>Register</button>
+          <button onClick={function(){setModalMode('login')}} style={{ background:'#F5A623', color:'white', border:'none', borderRadius:'100px', padding:'7px 18px', fontSize:'14px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>Sign In</button>
         </div>
       </nav>
 
@@ -413,7 +434,9 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                     const myVote = votes[voteId] || null
                     const isFlagged = myVote === 'flag'
                     return (
-                      <div key={idx} className={styles.reviewCard} style={{ opacity: isFlagged ? 0.5 : 1 }}>
+                      <div key={idx}
+                        className={styles.reviewCard + (bumped[voteId] ? ' ' + styles.reviewCardActive : '')}
+                        style={{ opacity: isFlagged ? 0.5 : 1 }}>
 
                         {/* DESKTOP: side-by-side. MOBILE: stacked (vote bar below review) */}
                         <div className="rv-card-inner">
@@ -473,6 +496,18 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 </svg>
                               </button>
 
+                              {/* Bump — keep this review visible */}
+                              <button
+                                onClick={function(){ toggleBump(voteId) }}
+                                title={bumped[voteId] ? 'Bumped — this review is being kept active' : 'Bump this review to keep it visible'}
+                                className="rv-vote-btn"
+                                style={{ marginTop:'2px' }}
+                              >
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill={bumped[voteId] ? '#F5A623' : 'none'} stroke={bumped[voteId] ? '#F5A623' : '#CCCCCC'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/>
+                                </svg>
+                              </button>
+
                             </div>
                               {/* Vertical divider — desktop only */}
                               <div className="rv-divider" />
@@ -481,17 +516,18 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                             {/* REPLY PANEL — expands from left, pushes review right */}
                             {replyingTo === voteId && (
                               <div style={{ width:'220px', flexShrink:0, background:'#F8F7F4', borderRadius:'10px', border:'1px solid rgba(0,0,0,0.07)', padding:'12px', marginRight:'12px', animation:'slideIn 0.2s ease' }}>
-                                <div style={{ fontSize:'12px', fontWeight:'700', color:'#1A1A1A', marginBottom:'8px', textTransform:'uppercase', letterSpacing:'0.05em' }}>Reply</div>
-                                <div style={{ fontSize:'12px', color:'#888', marginBottom:'10px', lineHeight:'1.4' }}>Sign in to join the conversation</div>
+                                <div style={{ fontSize:'12px', fontWeight:'700', color:'#1A1A1A', marginBottom:'10px', textTransform:'uppercase', letterSpacing:'0.05em' }}>Add your reply</div>
                                 <textarea
                                   placeholder="Write your reply..."
                                   rows={4}
+                                  value={replyTexts[voteId] || ''}
+                                  onChange={function(e) { setReplyTexts(function(prev) { return {...prev, [voteId]: e.target.value} }) }}
                                   style={{ width:'100%', border:'1px solid rgba(0,0,0,0.12)', borderRadius:'8px', padding:'8px 10px', fontSize:'13px', fontFamily:'inherit', resize:'none', outline:'none', boxSizing:'border-box' as const, color:'#1A1A1A', background:'white', marginBottom:'8px' }}
                                 />
                                 <button
-                                  onClick={function(){ setModalMode('register') }}
+                                  onClick={function(){ submitReply(voteId) }}
                                   style={{ display:'block', width:'100%', background:'#1c9b6d', color:'white', border:'none', borderRadius:'100px', padding:'8px', fontSize:'13px', fontWeight:'600', cursor:'pointer', fontFamily:'inherit', marginBottom:'6px' }}
-                                >Sign in to post</button>
+                                >Post reply</button>
                                 <button
                                   onClick={function(){ setReplyingTo(null) }}
                                   style={{ display:'block', width:'100%', background:'none', border:'1px solid rgba(0,0,0,0.1)', borderRadius:'100px', padding:'7px', fontSize:'12px', cursor:'pointer', fontFamily:'inherit', color:'#666' }}
@@ -523,6 +559,46 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                             </div>
                           )}
                           {r.text ? <ExpandableReview text={r.text} /> : null}
+
+                          {/* BUMP INDICATOR */}
+                          {bumped[voteId] && (
+                            <div style={{ display:'flex', alignItems:'center', gap:'5px', marginTop:'8px', fontSize:'12px', color:'#F5A623', fontWeight:'600' }}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="#F5A623" stroke="#F5A623" strokeWidth="2"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+                              You bumped this review — keeping it visible
+                            </div>
+                          )}
+
+                          {/* REPLY COUNT */}
+                          {(replies[voteId] || []).length > 0 && (
+                            <div className={styles.replyCount}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2z"/></svg>
+                              {(replies[voteId] || []).length} {(replies[voteId] || []).length === 1 ? 'reply' : 'replies'}
+                            </div>
+                          )}
+
+                          {/* REPLY THREAD */}
+                          {(replies[voteId] || []).length > 0 && (
+                            <div className={styles.replyThread}>
+                              {(replies[voteId] || []).map(function(rep, ri) {
+                                return (
+                                  <div key={ri} className={styles.replyItem}>
+                                    <div className={styles.replyAvatar + (rep.isOwner ? ' ' + styles.replyOwnerAvatar : '')}>
+                                      {rep.name[0] ? rep.name[0].toUpperCase() : '?'}
+                                    </div>
+                                    <div className={styles.replyContent}>
+                                      <div className={styles.replyMeta}>
+                                        <span className={styles.replyAuthor}>{rep.name}</span>
+                                        {rep.isOwner && <span className={styles.replyOwnerBadge}>Owner</span>}
+                                        <span className={styles.replyDate}>{rep.date}</span>
+                                      </div>
+                                      <div className={styles.replyText}>{rep.text}</div>
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          )}
+
                           </div>
 
                         </div>{/* rv-card-inner */}

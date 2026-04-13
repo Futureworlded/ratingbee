@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './page.module.css'
+import AuthModal from './components/AuthModal'
 import Footer from './components/Footer'
 
 const CATEGORIES = [
@@ -58,6 +59,8 @@ export default function HomePage() {
   const [nearbyPlaces, setNearbyPlaces] = useState<Place[]>([])
   const [loadingPlaces, setLoadingPlaces] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const [modalMode, setModalMode] = useState<'login'|'register'>('login')
 
   useEffect(function() {
     function onScroll() { setScrolled(window.scrollY > 20) }
@@ -174,7 +177,8 @@ export default function HomePage() {
         <div className={styles.navRight}>
           <a href="/search" className={styles.navLink}>Explore</a>
           <a href="/claim" className={styles.navLink}>For Businesses</a>
-          <a href="/claim" className={styles.claimBtn}>List Your Business</a>
+          <button onClick={function(){ setModalMode('register'); setShowModal(true) }} className={styles.navLink} style={{ background:'none', border:'none', cursor:'pointer', fontFamily:'inherit', fontSize:'14px', fontWeight:'500', color:'var(--gray-dark)' }}>Register</button>
+          <button onClick={function(){ setModalMode('login'); setShowModal(true) }} className={styles.claimBtn}>Sign In</button>
         </div>
       </nav>
 
@@ -297,7 +301,7 @@ export default function HomePage() {
 
             {loadingPlaces ? (
               <div className={styles.nearbyLoading}>
-                <img src="/rating-bee.png" alt="" style={{width:"48px",height:"48px",margin:"0 auto 12px",display:"block"}} />
+                <img src="/rating-bee.png" alt="" style={{height:"44px",width:"auto",margin:"0 auto 12px",display:"block",objectFit:"contain"}} />
                 <p>Finding {mealPeriod.label.toLowerCase()} spots near you...</p>
               </div>
             ) : (
@@ -317,7 +321,7 @@ export default function HomePage() {
                         />
                       ) : (
                         <div className={styles.nearbyPhotoPlaceholder}>
-                          <img src="/rating-bee.png" alt="" style={{width:'40px',height:'40px',opacity:0.3}} />
+                          <img src="/rating-bee.png" alt="" style={{height:'32px',width:'auto',opacity:0.3,objectFit:'contain'}} />
                         </div>
                       )}
                       {place.opening_hours?.open_now && (
@@ -338,7 +342,7 @@ export default function HomePage() {
                       )}
                       {place.rating && (
                         <div style={{display:"flex",alignItems:"center",gap:"4px",marginTop:"3px"}}>
-                          <img src="/rating-bee.png" alt="" style={{width:"13px",height:"13px",objectFit:"contain",opacity:0.85}} />
+                          <img src="/rating-bee.png" alt="" style={{height:"13px",width:"auto",objectFit:"contain",opacity:0.85}} />
                           <span style={{fontSize:"11px",color:"#D4891A",fontWeight:"600"}}>RatingBee {place.rating.toFixed(1)}</span>
                         </div>
                       )}
@@ -392,6 +396,13 @@ export default function HomePage() {
       {/* FOOTER */}
 
       <Footer />
+    {showModal && (
+      <AuthModal
+        mode={modalMode}
+        onClose={function(){ setShowModal(false) }}
+        onSuccess={function(){ setShowModal(false) }}
+      />
+    )}
     </div>
   )
 }

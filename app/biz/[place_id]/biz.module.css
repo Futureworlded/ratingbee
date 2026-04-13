@@ -100,7 +100,19 @@
 .reviewsSection { background: #F8F7F4; border-radius: var(--radius-lg); padding: 20px; border: 1px solid rgba(0,0,0,0.06); }
 .reviewsTitle { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; color: var(--black); margin-bottom: 20px; }
 .reviewsList { display: flex; flex-direction: column; gap: 12px; }
-.reviewCard { padding: 16px; background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; transition: box-shadow 0.15s; }
+.reviewCard { padding: 16px; background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; transition: box-shadow 0.15s, border-color 0.3s; }
+.reviewCardActive { border-color: rgba(245,166,35,0.5) !important; background: #FFFDF7 !important; box-shadow: 0 0 0 3px rgba(245,166,35,0.12) !important; }
+.replyCount { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #F5A623; font-weight: 600; margin-top: 8px; }
+.replyThread { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 10px; }
+.replyItem { display: flex; gap: 8px; }
+.replyAvatar { width: 28px; height: 28px; border-radius: 50%; background: var(--honey-light); color: var(--honey-dark); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 12px; flex-shrink: 0; }
+.replyOwnerAvatar { background: #1c9b6d; color: white; }
+.replyContent { flex: 1; }
+.replyMeta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.replyAuthor { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.replyOwnerBadge { font-size: 10px; font-weight: 700; background: #1c9b6d; color: white; padding: 2px 6px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.04em; }
+.replyDate { font-size: 11px; color: #AAA; }
+.replyText { font-size: 13px; color: #444; line-height: 1.5; }
 .reviewCard:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .reviewTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .reviewerInfo { display: flex; align-items: center; gap: 10px; }
