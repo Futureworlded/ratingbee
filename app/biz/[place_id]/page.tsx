@@ -300,13 +300,13 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
 
 
       {/* NAV: logo left | search center | links right */}
-      <nav className='biz-nav-grid' style={{ display:'grid', gridTemplateColumns:'1fr 2fr 1fr', alignItems:'center', gap:'12px', padding:'0 20px', height:'56px', background:'white', borderBottom:'1px solid rgba(0,0,0,0.07)', position:'sticky', top:0, zIndex:100 }}>
+      <nav className='biz-nav-grid' style={{ display:'grid', gridTemplateColumns:'1fr 2fr 1.6fr', alignItems:'center', gap:'12px', padding:'0 20px', height:'56px', background:'white', borderBottom:'1px solid rgba(0,0,0,0.07)', position:'sticky', top:0, zIndex:100 }}>
         <a href="/" style={{ display:'flex', alignItems:'center' }}>
           <img src="/rating-bee.png" alt="RatingBee" style={{ height:'26px', width:'auto', display:'block' }} />
         </a>
         <form onSubmit={handleMiniSearch} className='biz-nav-search' style={{ display:'flex', background:'#F5F5F5', border:'1px solid rgba(0,0,0,0.1)', borderRadius:'100px', overflow:'hidden', height:'36px', width:'100%' }}>
           <input type="text" placeholder="Search businesses..." value={searchWhat} onChange={function(e){setSearchWhat(e.target.value)}} style={{ flex:1, border:'none', outline:'none', padding:'0 14px', fontSize:'14px', background:'transparent', fontFamily:'inherit', minWidth:0 }} />
-          <input type="text" placeholder="City" value={searchWhere} onChange={function(e){setSearchWhere(e.target.value)}} style={{ width:'90px', border:'none', outline:'none', padding:'0 10px', fontSize:'14px', background:'transparent', fontFamily:'inherit', borderLeft:'1px solid rgba(0,0,0,0.1)' }} />
+          <input type="text" placeholder="City" value={searchWhere} onChange={function(e){setSearchWhere(e.target.value)}} style={{ width:'140px', minWidth:'100px', border:'none', outline:'none', padding:'0 12px', fontSize:'14px', background:'transparent', fontFamily:'inherit', borderLeft:'1px solid rgba(0,0,0,0.1)', color:'#1A1A1A', fontWeight:'500' }} />
           <button type="submit" style={{ background:'#F5A623', color:'white', border:'none', padding:'0 16px', cursor:'pointer', fontWeight:'600', fontSize:'14px', fontFamily:'inherit', borderRadius:'0 100px 100px 0', flexShrink:0 }}>Go</button>
         </form>
         <div className="biz-nav-links" style={{ display:'flex', alignItems:'center', justifyContent:'flex-end', gap:'10px' }}>
