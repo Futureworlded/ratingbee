@@ -84,6 +84,8 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
   const [bumped, setBumped] = useState<Record<string, boolean>>({})
   const [replies, setReplies] = useState<Record<string, Array<{name:string; text:string; date:string; isOwner:boolean}>>>({})
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({})
+  const [flagging, setFlagging] = useState<string|null>(null)
+  const [flagReason, setFlagReason] = useState('')
 
   function toggleBump(id: string) {
     setBumped(function(prev) {
@@ -454,7 +456,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 title="Helpful"
                                 className="rv-vote-btn"
                               >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={'#1c9b6d'} strokeWidth={myVote==='up' ? '2.5' : '1.8'} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='up' ? 1 : 0.55 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1c9b6d" strokeWidth={myVote==='up' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='up' ? 1 : 0.55 }}>
                                   <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/>
                                   <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
                                 </svg>
@@ -466,7 +468,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 title="Not helpful"
                                 className="rv-vote-btn"
                               >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={'#E53E3E'} strokeWidth={myVote==='down' ? '2.5' : '1.8'} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='down' ? 1 : 0.55 }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" strokeWidth={myVote==='down' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='down' ? 1 : 0.55 }}>
                                   <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/>
                                   <path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
                                 </svg>
@@ -474,11 +476,11 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
 
                               {/* Flag */}
                               <button
-                                onClick={function(){ castVote(voteId, 'flag') }}
+                                onClick={function(){ if(isFlagged){ castVote(voteId,'flag') } else { setFlagging(voteId); setFlagReason('') } }}
                                 title={isFlagged ? 'Flagged — click to unflag' : 'Flag this review'}
                                 className="rv-vote-btn"
                               >
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={'#E53E3E'} strokeWidth={myVote==='flag' ? '2.5' : '1.8'} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='flag' ? 1 : 0.55 }}>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" strokeWidth={myVote==='flag' ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='flag' ? 1 : 0.55 }}>
                                   <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
                                   <line x1="4" y1="22" x2="4" y2="15"/>
                                 </svg>
@@ -491,7 +493,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 className="rv-vote-btn"
                                 style={{ marginTop:'4px' }}
                               >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={'#F5A623'} strokeWidth={replyingTo === voteId ? '2.5' : '1.8'} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: replyingTo === voteId ? 1 : 0.55 }}>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F5A623" strokeWidth={replyingTo === voteId ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: replyingTo === voteId ? 1 : 0.55 }}>
                                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                                 </svg>
                               </button>
@@ -503,7 +505,7 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                                 className="rv-vote-btn"
                                 style={{ marginTop:'2px' }}
                               >
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={'#1A1A1A'} strokeWidth={bumped[voteId] ? '2.5' : '1.8'} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: bumped[voteId] ? 1 : 0.45 }}>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth={bumped[voteId] ? 2.5 : 1.8} strokeLinecap="round" strokeLinejoin="round" style={{ opacity: bumped[voteId] ? 1 : 0.45 }}>
                                   <polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/>
                                 </svg>
                               </button>
@@ -703,6 +705,58 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
       )}
 
       {modalMode==='review' && <AuthModal mode="review" businessName={place.name} businessId={place.place_id} onClose={function(){setModalMode(null)}} />}
+
+      {/* FLAG REASON MODAL */}
+      {flagging && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
+          <div style={{ background:'white', borderRadius:'20px', padding:'28px', maxWidth:'420px', width:'100%', boxShadow:'0 8px 40px rgba(0,0,0,0.15)' }}>
+            <h3 style={{ fontSize:'1.1rem', fontWeight:'700', color:'#1A1A1A', fontFamily:'Georgia, serif', marginBottom:'6px' }}>Flag this review</h3>
+            <p style={{ fontSize:'13px', color:'#666', marginBottom:'20px', lineHeight:'1.5' }}>
+              Please tell us why this review should be flagged. Flagging requires a RatingBee account so we can prevent abuse.
+            </p>
+
+            <div style={{ display:'flex', flexDirection:'column', gap:'8px', marginBottom:'20px' }}>
+              {[
+                'Fake or paid review',
+                'Conflict of interest (competitor or owner)',
+                'Contains false information',
+                'Inappropriate or offensive content',
+                'Spam or advertising',
+                'Review for wrong business',
+              ].map(function(reason) {
+                return (
+                  <label key={reason} style={{ display:'flex', alignItems:'center', gap:'10px', padding:'10px 14px', border:'1.5px solid', borderColor: flagReason===reason ? '#E53E3E' : 'rgba(0,0,0,0.1)', borderRadius:'10px', cursor:'pointer', fontSize:'14px', color:'#333', background: flagReason===reason ? '#FFF5F5' : 'white', transition:'all 0.15s' }}>
+                    <input type="radio" name="flagReason" value={reason} checked={flagReason===reason} onChange={function(){ setFlagReason(reason) }} style={{ accentColor:'#E53E3E' }} />
+                    {reason}
+                  </label>
+                )
+              })}
+            </div>
+
+            <div style={{ display:'flex', gap:'10px' }}>
+              <button
+                onClick={function(){ setFlagging(null); setFlagReason('') }}
+                style={{ flex:1, background:'none', border:'1px solid rgba(0,0,0,0.12)', borderRadius:'100px', padding:'10px', fontSize:'14px', cursor:'pointer', fontFamily:'inherit', color:'#555' }}
+              >Cancel</button>
+              <button
+                onClick={function(){
+                  if (!flagReason) return
+                  castVote(flagging, 'flag')
+                  setFlagging(null)
+                  setFlagReason('')
+                  setModalMode('login')
+                }}
+                disabled={!flagReason}
+                style={{ flex:1, background: flagReason ? '#E53E3E' : '#ccc', color:'white', border:'none', borderRadius:'100px', padding:'10px', fontSize:'14px', fontWeight:'600', cursor: flagReason ? 'pointer' : 'not-allowed', fontFamily:'inherit', transition:'background 0.15s' }}
+              >Submit Flag</button>
+            </div>
+
+            <p style={{ fontSize:'12px', color:'#999', textAlign:'center', marginTop:'12px' }}>
+              You will be asked to sign in or create a free account to submit.
+            </p>
+          </div>
+        </div>
+      )}
       {modalMode==='claim' && <AuthModal mode="claim" businessName={place.name} businessId={place.place_id} businessPhone={place.formatted_phone_number} onClose={function(){setModalMode(null)}} />}
       {(modalMode==='register'||modalMode==='login') && <AuthModal mode={modalMode} businessName="" businessId="" onClose={function(){setModalMode(null)}} />}
 
