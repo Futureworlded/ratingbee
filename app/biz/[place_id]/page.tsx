@@ -446,71 +446,36 @@ export default function BizPage({ params }: { params: Promise<{ place_id: string
                           {/* LEFT SIDE — vote rail + reply panel expanding from it */}
                           <div className="rv-left-side">
 
-                            {/* VOTE RAIL */}
+                            {/* VOTE RAIL — plain HTML strings bypass React SVG rendering */}
                             <div className="rv-vote-rail">
                               <div className="rv-vote-buttons">
 
-                              {/* Thumbs up */}
-                              <button
-                                onClick={function(){ castVote(voteId, 'up') }}
-                                title="Helpful"
-                                className="rv-vote-btn"
-                              >
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill={myVote==='up' ? '#1c9b6d' : 'none'} stroke="#1c9b6d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='up' ? 1 : 0.6 }}>
-                                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/>
-                                  <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
-                                </svg>
-                              </button>
+                                {/* Thumbs up - green */}
+                                <button onClick={function(){ castVote(voteId, 'up') }} title="Helpful" className="rv-vote-btn"
+                                  dangerouslySetInnerHTML={{__html: `<svg width="18" height="18" viewBox="0 0 24 24" fill="${myVote==='up' ? '#1c9b6d' : 'none'}" stroke="#1c9b6d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:${myVote==='up' ? '1' : '0.6'}"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>`}}
+                                />
 
-                              {/* Thumbs down */}
-                              <button
-                                onClick={function(){ castVote(voteId, 'down') }}
-                                title="Not helpful"
-                                className="rv-vote-btn"
-                              >
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill={myVote==='down' ? '#E53E3E' : 'none'} stroke="#E53E3E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='down' ? 1 : 0.6 }}>
-                                  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/>
-                                  <path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
-                                </svg>
-                              </button>
+                                {/* Thumbs down - red */}
+                                <button onClick={function(){ castVote(voteId, 'down') }} title="Not helpful" className="rv-vote-btn"
+                                  dangerouslySetInnerHTML={{__html: `<svg width="18" height="18" viewBox="0 0 24 24" fill="${myVote==='down' ? '#E53E3E' : 'none'}" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:${myVote==='down' ? '1' : '0.6'}"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>`}}
+                                />
 
-                              {/* Flag */}
-                              <button
-                                onClick={function(){ if(isFlagged){ castVote(voteId,'flag') } else { setFlagging(voteId); setFlagReason('') } }}
-                                title={isFlagged ? 'Flagged — click to unflag' : 'Flag this review'}
-                                className="rv-vote-btn"
-                              >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill={myVote==='flag' ? '#E53E3E' : 'none'} stroke="#E53E3E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: myVote==='flag' ? 1 : 0.6 }}>
-                                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
-                                  <line x1="4" y1="22" x2="4" y2="15"/>
-                                </svg>
-                              </button>
+                                {/* Flag - red */}
+                                <button onClick={function(){ if(isFlagged){ castVote(voteId,'flag') } else { setFlagging(voteId); setFlagReason('') } }} title={isFlagged ? 'Flagged — click to unflag' : 'Flag this review'} className="rv-vote-btn"
+                                  dangerouslySetInnerHTML={{__html: `<svg width="16" height="16" viewBox="0 0 24 24" fill="${myVote==='flag' ? '#E53E3E' : 'none'}" stroke="#E53E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:${myVote==='flag' ? '1' : '0.6'}"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`}}
+                                />
 
-                              {/* Reply */}
-                              <button
-                                onClick={function(){ setReplyingTo(replyingTo === voteId ? null : voteId) }}
-                                title="Reply to this review"
-                                className="rv-vote-btn"
-                                style={{ marginTop:'4px' }}
-                              >
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill={replyingTo === voteId ? '#F5A623' : 'none'} stroke="#F5A623" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: replyingTo === voteId ? 1 : 0.6 }}>
-                                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                                </svg>
-                              </button>
+                                {/* Reply - orange */}
+                                <button onClick={function(){ setReplyingTo(replyingTo === voteId ? null : voteId) }} title="Reply to this review" className="rv-vote-btn"
+                                  dangerouslySetInnerHTML={{__html: `<svg width="17" height="17" viewBox="0 0 24 24" fill="${replyingTo === voteId ? '#F5A623' : 'none'}" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:${replyingTo === voteId ? '1' : '0.6'}"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`}}
+                                />
 
-                              {/* Bump — keep this review visible */}
-                              <button
-                                onClick={function(){ toggleBump(voteId) }}
-                                title={bumped[voteId] ? 'Bumped — this review is being kept active' : 'Bump this review to keep it visible'}
-                                className="rv-vote-btn"
-                                style={{ marginTop:'2px' }}
-                              >
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: bumped[voteId] ? 1 : 0.4 }}>
-                                  <polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/>
-                                </svg>
-                              </button>
+                                {/* Bump - black */}
+                                <button onClick={function(){ toggleBump(voteId) }} title={bumped[voteId] ? 'Bumped' : 'Bump this review'} className="rv-vote-btn"
+                                  dangerouslySetInnerHTML={{__html: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:${bumped[voteId] ? '1' : '0.4'}"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>`}}
+                                />
 
-                            </div>
+                              </div>
                               {/* Vertical divider — desktop only */}
                               <div className="rv-divider" />
                             </div>
