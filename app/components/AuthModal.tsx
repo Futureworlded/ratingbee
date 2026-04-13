@@ -44,7 +44,12 @@ export default function AuthModal({ mode, businessName, businessId, onClose, onS
         })
         const data = await res.json()
         if (!res.ok) { setError(data.error || 'Registration failed.'); setLoading(false); return }
-        setSuccess('Account created! Check your email to verify your address, then sign in.')
+        if (data.autoLogin) {
+          setSuccess('Account created! Taking you to your dashboard...')
+          setTimeout(function() { window.location.href = '/dashboard' }, 1000)
+        } else {
+          setSuccess('Account created! Please sign in.')
+        }
       }
 
       if (currentMode === 'login') {
@@ -135,7 +140,7 @@ export default function AuthModal({ mode, businessName, businessId, onClose, onS
       <div className="rb-modal-wrap">
         <div className="rb-modal">
           <button className="rb-modal-close" onClick={onClose} aria-label="Close">×</button>
-          <img src="/rating-bee.png" alt="" style={{ width:'48px', height:'48px', margin:'0 auto 20px', display:'block' }} />
+          <img src="/rating-bee.png" alt="RatingBee" style={{ height:'40px', width:'auto', margin:'0 auto 20px', display:'block', objectFit:'contain' }} />
           <h2 className="rb-modal-title">{titles[currentMode]}</h2>
           <p className="rb-modal-sub">{subs[currentMode]}</p>
 
